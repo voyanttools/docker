@@ -1,0 +1,35 @@
+services:
+  prod:
+    build:
+      context: ./prod
+    restart: always
+    ports:
+      - 8080:8080
+      - 4000:4000
+    environment:
+      CATALINA_TMPDIR: /data
+      CATALINA_OPTS: "-Xmx10g"
+      JAVA_OPTS: >-
+        -XX:+UseConcMarkSweepGC
+        -Dorg.voyanttools.server.storage=file-per-corpus
+        -javaagent:/glowroot/glowroot.jar
+        -Dglowroot.data.dir=/data/glowroot-data
+    volumes:
+     - /data/:/data
+  dev:
+    build:
+      context: ./dev
+    restart: always
+    ports:
+      - 8080:8080
+      - 4000:4000
+    environment:
+      CATALINA_TMPDIR: /data
+      CATALINA_OPTS: "-Xmx10g"
+      JAVA_OPTS: >-
+        -XX:+UseConcMarkSweepGC
+        -Dorg.voyanttools.server.storage=file-per-corpus
+        -javaagent:/glowroot/glowroot.jar
+        -Dglowroot.data.dir=/data/glowroot-data
+    volumes:
+     - /data/:/data
