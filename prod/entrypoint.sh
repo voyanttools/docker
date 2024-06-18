@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE=/voyant-data
+BASE=/data
 
 # move data files from the image folder to the mounted data folder
 cp -nr /default-data/* $BASE
