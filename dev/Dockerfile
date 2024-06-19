@@ -3,8 +3,15 @@ FROM maven:3-jdk-11 AS builder
 RUN apt-get update
 
 WORKDIR /usr/src
-RUN git clone -b dev https://github.com/voyanttools/trombone --depth 1
-RUN git clone -b dev https://github.com/voyanttools/Voyant --depth 1
+
+ARG BRANCH=dev
+
+# the following two files will change with each commit, preventing caching of stale repos
+ADD https://api.github.com/repos/voyanttools/trombone/git/refs/heads/$BRANCH trombone_version.json
+ADD https://api.github.com/repos/voyanttools/Voyant/git/refs/heads/$BRANCH voyant_version.json
+
+RUN git clone -b $BRANCH https://github.com/voyanttools/trombone --depth 1
+RUN git clone -b $BRANCH https://github.com/voyanttools/Voyant --depth 1
 
 WORKDIR /usr/src/trombone
 # rewrite local trombone version to "dev" to ensure it's used
