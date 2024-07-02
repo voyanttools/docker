@@ -1,9 +1,9 @@
 #!/bin/bash
 
-BASE=/data
+BASE=/voyant-data
 
 # move data files from the image folder to the mounted data folder
-cp -nr /default-data/* $BASE
+#cp -nr /default-data/* $BASE
 
 # increase maximum post size
 sed -i "s%connectionTimeout=\"20000\"%maxPostSize=\"-1\" connectionTimeout=\"120000\"%" $CATALINA_HOME/conf/server.xml

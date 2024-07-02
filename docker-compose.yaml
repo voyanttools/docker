@@ -12,15 +12,15 @@ services:
       - 8080:8080
       - 4000:4000
     environment:
-      CATALINA_TMPDIR: /data
-      CATALINA_OPTS: "-Xmx10g"
+      CATALINA_TMPDIR: /voyant-data
+      CATALINA_OPTS: "-Xmx45g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -javaagent:/glowroot/glowroot.jar
-        -Dglowroot.data.dir=/data/glowroot-data
+        -Dglowroot.data.dir=/voyant-data/glowroot-data
     volumes:
-     - /data/:/data
+     - /voyant-data/:/voyant-data
   dev:
     build:
       context: ./dev
