@@ -3,6 +3,11 @@ services:
     build:
       context: ./prod
     restart: always
+    healthcheck:
+      test: curl -f http://localhost:8080/resources/ext/6.2.0/charts-all.css || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 2
     ports:
       - 8080:8080
       - 4000:4000
