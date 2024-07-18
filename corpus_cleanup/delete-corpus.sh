@@ -2,11 +2,11 @@
 
 trombone_dir="/data/trombone5_2"
 
-doc_string=$(./get-documents-for-corpus.sh "${1}")
+docs_file="${trombone_dir}/object-storage/${1}"
 
 while IFS= read -r doc_id || [[ -n $doc_id ]]; do
     rm -rf "${trombone_dir}/stored_document_sources/${doc_id}"
-done < <(printf '%s' "$doc_string")
+done < "${docs_file}"
 
 rm -f "${trombone_dir}/object-storage/${1}-langs"
 rm -f "${trombone_dir}/object-storage/${1}-lexicalLastTokenPositions"
