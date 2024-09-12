@@ -34,8 +34,7 @@ RUN mkdir webapps/ROOT && unzip ROOT.war -d webapps/ROOT && rm ROOT.war
 
 COPY oauth.properties webapps/ROOT/WEB-INF/classes
 
-ENV GLOWROOT \
-  https://github.com/glowroot/glowroot/releases/download/v0.14.2/glowroot-0.14.2-dist.zip
+ENV GLOWROOT=https://github.com/glowroot/glowroot/releases/download/v0.14.2/glowroot-0.14.2-dist.zip
 
 WORKDIR /
 RUN wget $GLOWROOT

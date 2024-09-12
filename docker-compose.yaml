@@ -1,45 +1,56 @@
+# example command for setting vars and running local:
+# LOCAL_VOLUME=/mnt/d/VoyantData LOCAL_MEMORY=8 docker compose up local -d
 services:
   prod:
     build:
       context: ./prod
     restart: always
-    healthcheck:
+    healthcheck: &healthcheck
       test: curl -f http://localhost:8080/resources/ext/6.2.0/charts-all.css || exit 1
       interval: 30s
       timeout: 10s
       retries: 2
-    ports:
+    ports: &ports
       - 8080:8080
       - 4000:4000
     environment:
       CATALINA_TMPDIR: /voyant-data
-      CATALINA_OPTS: "-Xmx45g"
+      CATALINA_OPTS: "-Xmx${PROD_MEMORY}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -javaagent:/glowroot/glowroot.jar
         -Dglowroot.data.dir=/voyant-data/glowroot-data
     volumes:
-     - /voyant-data/:/voyant-data
+     - /${PROD_VOLUME}/:/voyant-data
+  local:
+    build:
+      context: ./local
+    restart: always
+    healthcheck: *healthcheck
+    ports:
+      - 8080:8080
+    environment:
+      CATALINA_TMPDIR: /voyant-data
+      CATALINA_OPTS: "-Xmx${LOCAL_MEMORY}g"
+      JAVA_OPTS: >-
+        -XX:+UseConcMarkSweepGC
+        -Dorg.voyanttools.server.storage=file-per-corpus
+    volumes:
+     - /${LOCAL_VOLUME}/:/voyant-data
   dev:
     build:
       context: ./dev
     restart: always
-    healthcheck:
-      test: curl -f http://localhost:8080/resources/ext/6.2.0/charts-all.css || exit 1
-      interval: 30s
-      timeout: 10s
-      retries: 2
-    ports:
-      - 8080:8080
-      - 4000:4000
+    healthcheck: *healthcheck
+    ports: *ports
     environment:
-      CATALINA_TMPDIR: /data
-      CATALINA_OPTS: "-Xmx10g"
+      CATALINA_TMPDIR: /voyant-data
+      CATALINA_OPTS: "-Xmx${DEV_MEMORY}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -javaagent:/glowroot/glowroot.jar
-        -Dglowroot.data.dir=/data/glowroot-data
+        -Dglowroot.data.dir=/voyant-data/glowroot-data
     volumes:
-     - /data/:/data
+     - /${DEV_VOLUME}/:/voyant-data

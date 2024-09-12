@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cp -anr /default-data/* /voyant-data
+
 # increase maximum post size
 sed -i "s%connectionTimeout=\"20000\"%maxPostSize=\"-1\" connectionTimeout=\"120000\"%" $CATALINA_HOME/conf/server.xml
 

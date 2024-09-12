@@ -2,18 +2,9 @@ FROM tomcat:9-jdk11
 RUN apt-get update \
   && apt-get install -y cron wget unzip
 
-ARG VERSION=2.6.16
-
-ENV RELEASE=https://github.com/voyanttools/VoyantServer/releases/download/$VERSION/VoyantServer.zip
-
-ENV GLOWROOT=https://github.com/glowroot/glowroot/releases/download/v0.14.2/glowroot-0.14.2-dist.zip
+ENV RELEASE=https://github.com/voyanttools/VoyantServer/releases/latest/download/VoyantServer.zip
 
 ENV CORENLP=https://nlp.stanford.edu/software/stanford-corenlp-full-2018-10-05.zip
-
-WORKDIR /
-RUN wget $GLOWROOT
-RUN unzip glowroot*.zip && rm glowroot*.zip
-COPY glowroot-admin.json /glowroot/admin.json
 
 WORKDIR /usr/local/tomcat
 RUN wget $RELEASE

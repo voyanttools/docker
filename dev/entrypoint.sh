@@ -1,12 +1,8 @@
 #!/bin/bash
 
-BASE=/data
-
-# move data files from the image folder to the mounted data folder
-#cp -nr /default-data/* $BASE
-
 # increase maximum post size
 sed -i "s%connectionTimeout=\"20000\"%maxPostSize=\"-1\" connectionTimeout=\"120000\"%g" $CATALINA_HOME/conf/server.xml
+
 # increase cache
 sed -i "s%<Context>%<Context>\n    <Resources cacheMaxSize=\"51200\" />%g" $CATALINA_HOME/conf/context.xml
 
