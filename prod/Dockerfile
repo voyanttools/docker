@@ -2,7 +2,7 @@ FROM tomcat:9-jdk11
 RUN apt-get update \
   && apt-get install -y cron wget unzip
 
-ARG VERSION=2.6.16
+ARG VERSION=2.6.17
 
 ENV RELEASE=https://github.com/voyanttools/VoyantServer/releases/download/$VERSION/VoyantServer.zip
 

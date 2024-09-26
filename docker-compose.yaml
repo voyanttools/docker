@@ -3,6 +3,8 @@
 services:
   prod:
     build:
+      args:
+        VERSION: ${VERSION:-2.6.17}
       context: ./prod
     restart: always
     healthcheck: &healthcheck
@@ -37,7 +39,7 @@ services:
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
     volumes:
-     - /${LOCAL_VOLUME}/:/voyant-data
+     - /${LOCAL_VOLUME:-/voyant-data}/:/voyant-data
   dev:
     build:
       args:
