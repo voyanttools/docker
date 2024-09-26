@@ -15,7 +15,7 @@ services:
       - 4000:4000
     environment:
       CATALINA_TMPDIR: /voyant-data
-      CATALINA_OPTS: "-Xmx${PROD_MEMORY}g"
+      CATALINA_OPTS: "-Xmx${PROD_MEMORY:-45}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
@@ -32,7 +32,7 @@ services:
       - 8080:8080
     environment:
       CATALINA_TMPDIR: /voyant-data
-      CATALINA_OPTS: "-Xmx${LOCAL_MEMORY}g"
+      CATALINA_OPTS: "-Xmx${LOCAL_MEMORY:-4}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
@@ -41,14 +41,14 @@ services:
   dev:
     build:
       args:
-        BRANCH: ${BRANCH}
+        BRANCH: ${BRANCH:-dev}
       context: ./dev
     restart: always
     healthcheck: *healthcheck
     ports: *ports
     environment:
       CATALINA_TMPDIR: /data
-      CATALINA_OPTS: "-Xmx${DEV_MEMORY}g"
+      CATALINA_OPTS: "-Xmx${DEV_MEMORY:-10}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
