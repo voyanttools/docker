@@ -22,7 +22,7 @@ services:
         -javaagent:/glowroot/glowroot.jar
         -Dglowroot.data.dir=/voyant-data/glowroot-data
     volumes:
-     - /${PROD_VOLUME}/:/voyant-data
+     - /voyant-data/:/voyant-data
   local:
     build:
       context: ./local
@@ -40,17 +40,19 @@ services:
      - /${LOCAL_VOLUME}/:/voyant-data
   dev:
     build:
+      args:
+        BRANCH: ${BRANCH}
       context: ./dev
     restart: always
     healthcheck: *healthcheck
     ports: *ports
     environment:
-      CATALINA_TMPDIR: /voyant-data
+      CATALINA_TMPDIR: /data
       CATALINA_OPTS: "-Xmx${DEV_MEMORY}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -javaagent:/glowroot/glowroot.jar
-        -Dglowroot.data.dir=/voyant-data/glowroot-data
+        -Dglowroot.data.dir=/data/glowroot-data
     volumes:
-     - /${DEV_VOLUME}/:/voyant-data
+     - /data/:/data
