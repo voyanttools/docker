@@ -1,5 +1,12 @@
-# example command for setting vars and running local:
-# LOCAL_VOLUME=/mnt/d/VoyantData LOCAL_MEMORY=8 docker compose up local -d
+# variables:
+# VERSION: the VoyantServer release number (for prod service)
+# BRANCH: the branch (master or dev) to use (for dev service)
+# MEMORY: the amount of GBs of memory to allocate
+# TMPDIR: the name of the Catalina temp dir
+# LOCALDIR: the name of the local dir
+#
+# example:
+# LOCALDIR=/mnt/d/VoyantData MEMORY=8 docker compose up local -d
 services:
   prod:
     build:
@@ -18,14 +25,14 @@ services:
       - 4000:4000
     environment:
       CATALINA_TMPDIR: /voyant-data
-      CATALINA_OPTS: "-Xmx${PROD_MEMORY:-45}g"
+      CATALINA_OPTS: "-Xmx${MEMORY:-45}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -javaagent:/glowroot/glowroot.jar
-        -Dglowroot.data.dir=/voyant-data/glowroot-data
+        -Dglowroot.data.dir=${LOCALDIR:-/voyant-data}/glowroot-data
     volumes:
-     - /voyant-data/:/voyant-data
+     - ${LOCALDIR:-/voyant-data}/:/voyant-data
   local:
     build:
       context: ./local
@@ -35,12 +42,12 @@ services:
       - 8080:8080
     environment:
       CATALINA_TMPDIR: /voyant-data
-      CATALINA_OPTS: "-Xmx${LOCAL_MEMORY:-4}g"
+      CATALINA_OPTS: "-Xmx${MEMORY:-4}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
     volumes:
-     - /${LOCAL_VOLUME:-/voyant-data}/:/voyant-data
+     - ${LOCALDIR:-/voyant-data}/:/voyant-data
   dev:
     build:
       args:
@@ -51,11 +58,11 @@ services:
     ports: *ports
     environment:
       CATALINA_TMPDIR: /data
-      CATALINA_OPTS: "-Xmx${DEV_MEMORY:-10}g"
+      CATALINA_OPTS: "-Xmx${MEMORY:-10}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -javaagent:/glowroot/glowroot.jar
-        -Dglowroot.data.dir=/data/glowroot-data
+        -Dglowroot.data.dir=${LOCALDIR:-/voyant-data}/glowroot-data
     volumes:
-     - /data/:/data
+     - ${LOCALDIR:-/voyant-data}/:/data
