@@ -10,6 +10,10 @@ sed -i "s%<Context>%<Context>\n    <Resources cacheMaxSize=\"51200\" />%g" $CATA
 sed -i 's%<param-name>entitiesenabled</param-name><param-value>false%<param-name>entitiesenabled</param-name><param-value>true%' \
    /usr/local/tomcat/webapps/ROOT/WEB-INF/web.xml
 
+# set version to build date
+DATE=$(date +'%Y-%m-%d')
+sed -i "s%<param-name>version</param-name><param-value>[0-9.]\+%<param-name>version</param-name><param-value>$DATE%" web.xml
+
 # continue execution
 # exec "$@"
 catalina.sh run
