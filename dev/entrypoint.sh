@@ -12,7 +12,8 @@ sed -i 's%<param-name>entitiesenabled</param-name><param-value>false%<param-name
 
 # set version to build date
 DATE=$(date +'%Y-%m-%d')
-sed -i "s%<param-name>version</param-name><param-value>[0-9.]\+%<param-name>version</param-name><param-value>$DATE%" web.xml
+sed -i "s%<param-name>version</param-name><param-value>[0-9.]\+%<param-name>version</param-name><param-value>$DATE%" \
+   /usr/local/tomcat/webapps/ROOT/WEB-INF/web.xml
 
 # continue execution
 # exec "$@"
