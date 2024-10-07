@@ -2,8 +2,7 @@
 # VERSION: the VoyantServer release number (for prod service)
 # BRANCH: the branch (master or dev) to use (for dev service)
 # MEMORY: the amount of GBs of memory to allocate
-# TMPDIR: the name of the Catalina temp dir
-# LOCALDIR: the name of the local dir
+# LOCALDIR: the name of the local dir to use as Voyant's data dir
 #
 # example:
 # LOCALDIR=/mnt/d/VoyantData MEMORY=8 docker compose up local -d
@@ -30,7 +29,7 @@ services:
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -javaagent:/glowroot/glowroot.jar
-        -Dglowroot.data.dir=${LOCALDIR:-/voyant-data}/glowroot-data
+        -Dglowroot.data.dir=/voyant-data/glowroot-data
     volumes:
      - ${LOCALDIR:-/voyant-data}/:/voyant-data
   local:
