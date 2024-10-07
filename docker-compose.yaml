@@ -16,7 +16,7 @@ services:
     restart: always
     healthcheck: &healthcheck
       test: curl -f http://localhost:8080/resources/ext/6.2.0/charts-all.css || exit 1
-      start-period: 10s
+      start_period: 10s
       interval: 30s
       timeout: 10s
       retries: 2
@@ -57,12 +57,12 @@ services:
     healthcheck: *healthcheck
     ports: *ports
     environment:
-      CATALINA_TMPDIR: /data
+      CATALINA_TMPDIR: /voyant-data
       CATALINA_OPTS: "-Xmx${MEMORY:-10}g"
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -javaagent:/glowroot/glowroot.jar
-        -Dglowroot.data.dir=${LOCALDIR:-/voyant-data}/glowroot-data
+        -Dglowroot.data.dir=/voyant-data/glowroot-data
     volumes:
-     - ${LOCALDIR:-/voyant-data}/:/data
+     - ${LOCALDIR:-/voyant-data}/:/voyant-data
