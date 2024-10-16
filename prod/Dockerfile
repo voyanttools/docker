@@ -32,6 +32,7 @@ RUN unzip stanford-corenlp*.zip \
   && rm -rf stanford-corenlp*
 
 COPY oauth.properties /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
+COPY nssiconfig.properties /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/ca/lincsproject/nssi/config.properties
 
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]

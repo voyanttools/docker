@@ -33,6 +33,7 @@ COPY --from=builder /usr/src/Voyant/target/*.war ROOT.war
 RUN mkdir webapps/ROOT && unzip ROOT.war -d webapps/ROOT && rm ROOT.war
 
 COPY oauth.properties webapps/ROOT/WEB-INF/classes
+COPY nssiconfig.properties webapps/ROOT/WEB-INF/classes/ca/lincsproject/nssi/config.properties
 
 ENV GLOWROOT=https://github.com/glowroot/glowroot/releases/download/v0.14.2/glowroot-0.14.2-dist.zip
 
