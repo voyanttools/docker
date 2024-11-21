@@ -18,7 +18,7 @@ services:
       start_period: 60s
       interval: 20s
       timeout: 10s
-      retries: 2
+      retries: 3
     ports: &ports
       - 8080:8080
       - 4000:4000
