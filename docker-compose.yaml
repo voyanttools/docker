@@ -28,6 +28,7 @@ services:
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
+        -Dorg.voyanttools.server.showservermessage=true
         -javaagent:/glowroot/glowroot.jar
         -Dglowroot.data.dir=/voyant-data/glowroot-data
     volumes:
@@ -61,6 +62,7 @@ services:
       JAVA_OPTS: >-
         -XX:+UseConcMarkSweepGC
         -Dorg.voyanttools.server.storage=file-per-corpus
+        -Dorg.voyanttools.server.showservermessage=true
         -javaagent:/glowroot/glowroot.jar
         -Dglowroot.data.dir=/voyant-data/glowroot-data
     volumes:
