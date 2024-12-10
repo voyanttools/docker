@@ -2,9 +2,9 @@ FROM tomcat:9-jdk11
 RUN apt-get update \
   && apt-get install -y cron wget unzip
 
-ENV RELEASE=https://github.com/voyanttools/VoyantServer/releases/latest/download/VoyantServer.zip
+ARG RELEASE=https://github.com/voyanttools/VoyantServer/releases/latest/download/VoyantServer.zip
 
-ENV CORENLP=https://nlp.stanford.edu/software/stanford-corenlp-full-2018-10-05.zip
+ARG CORENLP=https://nlp.stanford.edu/software/stanford-corenlp-full-2018-10-05.zip
 
 WORKDIR /usr/local/tomcat
 RUN wget $RELEASE
@@ -24,5 +24,9 @@ RUN unzip stanford-corenlp*.zip \
 
 COPY oauth.properties /usr/local/tomcat/webapps/ROOT/WEB-INF/classes
 
+ENV CATALINA_TMPDIR="/voyant-data"
+ENV CATALINA_OPTS="-Xmx2g"
+ENV JAVA_OPTS="-XX:+UseConcMarkSweepGC -Dorg.voyanttools.server.storage=file-per-corpus"
+
 COPY entrypoint.sh /
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["bash", "/entrypoint.sh"]

@@ -33,21 +33,6 @@ services:
         -Dglowroot.data.dir=/voyant-data/glowroot-data
     volumes:
      - ${LOCALDIR:-/voyant-data}/:/voyant-data
-  local:
-    build:
-      context: ./local
-    restart: always
-    healthcheck: *healthcheck
-    ports:
-      - 8080:8080
-    environment:
-      CATALINA_TMPDIR: /voyant-data
-      CATALINA_OPTS: "-Xmx${MEMORY:-4}g"
-      JAVA_OPTS: >-
-        -XX:+UseConcMarkSweepGC
-        -Dorg.voyanttools.server.storage=file-per-corpus
-    volumes:
-     - ${LOCALDIR:-/voyant-data}/:/voyant-data
   dev:
     build:
       args:
