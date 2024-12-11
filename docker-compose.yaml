@@ -15,10 +15,10 @@ services:
     restart: always
     healthcheck: &healthcheck
       test: curl -f http://localhost:8080/resources/ext/6.2.0/charts-all.css || exit 1
-      start_period: 60s
-      interval: 20s
+      start_period: 300s
+      interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 5
     ports: &ports
       - 8080:8080
       - 4000:4000
