@@ -24,13 +24,21 @@ services:
       - 4000:4000
     environment:
       CATALINA_TMPDIR: /voyant-data
-      CATALINA_OPTS: "-Xmx${MEMORY:-45}g"
+      CATALINA_OPTS: >-
+        -XX:MaxRAMPercentage=75.0
+        -XX:InitialRAMPercentage=75.0
+        -XX:+HeapDumpOnOutOfMemoryError
+        -XX:HeapDumpPath=/voyant-data/heapdump.hprof
       JAVA_OPTS: >-
-        -XX:+UseConcMarkSweepGC
+        -XX:+UseG1GC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -Dorg.voyanttools.server.showservermessage=true
         -javaagent:/glowroot/glowroot.jar
         -Dglowroot.data.dir=/voyant-data/glowroot-data
+    deploy:
+      resources:
+        limits:
+          memory: "${MEMORY:-45}g"
     volumes:
      - ${LOCALDIR:-/voyant-data}/:/voyant-data
   dev:
@@ -43,12 +51,22 @@ services:
     ports: *ports
     environment:
       CATALINA_TMPDIR: /voyant-data
-      CATALINA_OPTS: "-Xmx${MEMORY:-10}g"
+      CATALINA_OPTS: >-
+        -XX:MaxRAMPercentage=75.0
+        -XX:InitialRAMPercentage=75.0
+        -XX:NativeMemoryTracking=summary
+        -XX:+HeapDumpOnOutOfMemoryError
+        -XX:HeapDumpPath=/voyant-data/heapdump.hprof
       JAVA_OPTS: >-
-        -XX:+UseConcMarkSweepGC
+        -XX:+UseG1GC
         -Dorg.voyanttools.server.storage=file-per-corpus
         -Dorg.voyanttools.server.showservermessage=true
         -javaagent:/glowroot/glowroot.jar
         -Dglowroot.data.dir=/voyant-data/glowroot-data
+    deploy:
+      resources:
+        limits:
+          memory: "${MEMORY:-10}g"
     volumes:
      - ${LOCALDIR:-/voyant-data}/:/voyant-data
+
