@@ -1,4 +1,4 @@
-FROM tomcat:9-jdk11
+FROM tomcat:9.0-jdk11-temurin-noble
 RUN apt-get update \
   && apt-get install -y cron wget unzip
 
