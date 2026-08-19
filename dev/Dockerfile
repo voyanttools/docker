@@ -1,4 +1,4 @@
-FROM maven:3-jdk-11 AS builder
+FROM maven:3-eclipse-temurin-11 AS builder
 
 RUN apt-get update
 
@@ -23,7 +23,7 @@ WORKDIR /usr/src/Voyant
 RUN perl -0777 -i -pe 's/(<artifactId>trombone<\/artifactId>\s+<version>)[\d\.]+(<\/version>)/$1dev$2/' pom.xml
 RUN mvn install
 
-FROM tomcat:9-jdk11
+FROM tomcat:9.0-jdk11-temurin-noble
 
 RUN apt-get update
 RUN apt-get -y install unzip
