@@ -2,7 +2,7 @@ FROM tomcat:9.0-jdk11-temurin-noble
 RUN apt-get update \
   && apt-get install -y cron wget unzip
 
-ARG VERSION=2.6.22
+ARG VERSION=2.6.23
 
 ENV RELEASE=https://github.com/voyanttools/VoyantServer/releases/download/$VERSION/VoyantServer.zip
 
