@@ -40,7 +40,9 @@ services:
         limits:
           memory: "${MEMORY:-45}g"
     volumes:
-     - ${LOCALDIR:-/voyant-data}/:/voyant-data
+      - ${LOCALDIR:-/voyant-data}/:/voyant-data
+    labels:
+      - autoheal=true
   dev:
     build:
       args:
@@ -68,5 +70,16 @@ services:
         limits:
           memory: "${MEMORY:-10}g"
     volumes:
-     - ${LOCALDIR:-/voyant-data}/:/voyant-data
+    labels:
+      - autoheal=true
 
+  autoheal:
+    image: willfarrell/autoheal:latest
+    container_name: autoheal
+    restart: always
+    user: root
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=autoheal
+      - AUTOHEAL_INTERVAL=10
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
