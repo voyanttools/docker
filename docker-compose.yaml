@@ -54,11 +54,17 @@ services:
     environment:
       CATALINA_TMPDIR: /voyant-data
       CATALINA_OPTS: >-
-        -XX:MaxRAMPercentage=75.0
-        -XX:InitialRAMPercentage=75.0
-        -XX:NativeMemoryTracking=summary
+        -Xms${JAVA_MEMORY:-8}g
+        -Xmx${JAVA_MEMORY:-8}g
+        -XX:+UseG1GC
+        -XX:MaxGCPauseMillis=200
+        -XX:MetaspaceSize=256m
+        -XX:MaxMetaspaceSize=1g
+        -XX:NativeMemoryTracking=detail
         -XX:+HeapDumpOnOutOfMemoryError
         -XX:HeapDumpPath=/voyant-data/heapdump.hprof
+        -Xlog:gc*:file=/usr/local/tomcat/logs/gc.log:time:filecount=5,filesize=10M
+        -Duser.timezone=America/Edmonton
       JAVA_OPTS: >-
         -XX:+UseG1GC
         -Dorg.voyanttools.server.storage=file-per-corpus
