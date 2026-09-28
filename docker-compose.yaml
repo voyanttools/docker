@@ -41,8 +41,7 @@ services:
           memory: "${MEMORY:-45}g"
     volumes:
       - ${LOCALDIR:-/voyant-data}/:/voyant-data
-    labels:
-      - autoheal=true
+      
   dev:
     build:
       args:
@@ -78,8 +77,6 @@ services:
     volumes:
       - ${LOCALDIR:-/voyant-data}/:/voyant-data
       - ${LOCALDIR:-/voyant-data}/tomcat-logs:/usr/local/tomcat/logs
-    labels:
-      - autoheal=true
 
   autoheal:
     image: willfarrell/autoheal:latest
@@ -87,7 +84,8 @@ services:
     restart: always
     user: root
     environment:
-      - AUTOHEAL_CONTAINER_LABEL=autoheal
+      - AUTOHEAL_CONTAINER_LABEL=all
       - AUTOHEAL_INTERVAL=10
+      - AUTOHEAL_START_PERIOD=60
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
