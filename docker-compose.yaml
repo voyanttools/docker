@@ -48,6 +48,7 @@ services:
         BRANCH: ${BRANCH:-dev}
       context: ./dev
     restart: always
+    init: true
     healthcheck: *healthcheck
     ports: *ports
     environment:
@@ -60,6 +61,7 @@ services:
         -XX:MetaspaceSize=256m
         -XX:MaxMetaspaceSize=1g
         -XX:NativeMemoryTracking=detail
+        -XX:+ExitOnOutOfMemoryError
         -XX:+HeapDumpOnOutOfMemoryError
         -XX:HeapDumpPath=/voyant-data/heapdump.hprof
         -Xlog:gc*:file=/usr/local/tomcat/logs/gc.log:time:filecount=5,filesize=10M
